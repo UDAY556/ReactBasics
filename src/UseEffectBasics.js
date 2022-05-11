@@ -5,7 +5,7 @@ import React, {useState, useEffect} from "react"
 // useEffect(callback)
 
 // behaviour of useEffect in a counter app
-// document.title = `New Message(${valuse})`
+// document.title = `New Message(   ${valuse})`
 // use effect in the condition
 
 // only run initial render 
@@ -15,22 +15,21 @@ import React, {useState, useEffect} from "react"
 
 // clean up function
 
-function UseStateBasics() {
+function UseEffectBasics() {
     
-    const [a,b] = useState(1);
+    const [counter,setCounter] = useState(1);
 
     useEffect(()=>{
      console.log("use Effect")
 
-     return ()=> {
-         console.log("cleanup")
-     }
+    },[])
 
+     console.log("Component rendering")
 
-    })
-
-    return <h1 onClick={()=>b(a+1)}>{a}</h1>
+    return (<div className="container">
+    <h1 onClick={()=>setCounter(counter+1)}>{counter}</h1>
+    </div>)
 
 }
 
-export default UseStateBasics;
+export default UseEffectBasics;
