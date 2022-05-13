@@ -1,13 +1,38 @@
-import React, { useState } from "react"
+import React, { useState, useReducer } from "react"
+
+// useReduce(reduceFn, defaultState) 
 
 
 
-function ReactForms() {
+function ReactUseReducer() {
 
     const [fname, setFname] = useState("");
     const [email, setEmail] = useState("");
 
     const [users, setUsers] = useState([]);
+
+    const reducer = (state, action) => {
+
+        console.log(state)
+        console.log(action)
+      
+       if (action.type==="ERROR"){
+        return {isError:action.isError, errorMessage:action.errorMessage};
+       } else if (action.type="CLEAR_ERROR") {
+           return {isError:false}
+       }
+
+    }
+
+    const defaultState ={
+        isError:false,
+        firstName:"",
+        email:"",
+        users:[],
+        errorMessage:"kjbvsdfjkvbskhjf"
+    };
+
+    const [state, dispatch] = useReducer(reducer, defaultState)
 
     function onChangeInput(e) {
         setFname(e.target.value)
@@ -15,7 +40,18 @@ function ReactForms() {
 
     function onSubmitUserInfo(e) {
 
+        
+
         e.preventDefault()
+// action is an object 
+// general rule to have type key in the boject 
+
+  if (email ==="") {
+    dispatch({type:"ERROR",
+     isError:true, 
+     errorMessage:"Email is missing"})
+  }
+       
 
         let newUserObj = {
             name: fname,
@@ -24,6 +60,9 @@ function ReactForms() {
 
         if (email !== "" && fname !== "") {
             setUsers([...users, newUserObj])
+
+            dispatch({type:"CLEAR_ERROR", isError:false})
+
         }
 
 
@@ -32,6 +71,8 @@ function ReactForms() {
     return (
         <div className="container">
             <h1>React forms</h1>
+
+            {state.isError && <h3>{state.errorMessage}</h3>}
             <form onSubmit={onSubmitUserInfo} >
 
                 <div>
@@ -72,4 +113,8 @@ function ReactForms() {
     )
 }
 
-export default ReactForms;
+export default ReactUseReducer;
+
+function newFunction() {
+    return "ERROR";
+}
